@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#f7f5ef">
+<title>卡包相册</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<svg class="icon-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3.2" y="4.2" width="17.6" height="15.6" rx="2.2"/><path d="M9.2 4.4v15.2"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.2" cy="12" r="1.35" class="dot"/><circle cx="12" cy="12" r="1.35" class="dot"/><circle cx="18.8" cy="12" r="1.35" class="dot"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.7"/><path d="m16 16 4.6 4.6"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.4"/><circle cx="8.4" cy="9.2" r="1.45"/><path d="m3.6 17.2 5.1-5 3.8 3.7 2.5-2.4 5.4 5.2"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.4a2.2 2.2 0 0 1 2.2-2.2h4.1l2 2.1h7.5A2.2 2.2 0 0 1 21 9.5v7.9a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.4z"/></symbol>
+    <symbol id="i-folder-plus" viewBox="0 0 24 24"><path d="M3 7.4a2.2 2.2 0 0 1 2.2-2.2h4.1l2 2.1h7.5A2.2 2.2 0 0 1 21 9.5v7.9a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.4z"/><path d="M12 11.3v5.2M9.4 13.9h5.2"/></symbol>
+    <symbol id="i-folder-open" viewBox="0 0 24 24"><path d="M3 7.4a2.2 2.2 0 0 1 2.2-2.2h4.1l2 2.1h7.5A2.2 2.2 0 0 1 21 9.5v2"/><path d="M4.2 20h13.4a2 2 0 0 0 1.9-1.4l2-6.1H7.8a2 2 0 0 0-1.9 1.4L3.7 20z"/></symbol>
+    <symbol id="i-suitcase" viewBox="0 0 24 24"><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7"/><rect x="3" y="7" width="18" height="13" rx="2.2"/><path d="M3 12.1h18M10 12.1v7.9M14 12.1v7.9"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.2" r="3.15"/><path d="M3.2 19.7v-.8a5.1 5.1 0 0 1 5.1-5.1h1.4a5.1 5.1 0 0 1 5.1 5.1v.8"/><circle cx="17" cy="9.2" r="2.45"/><path d="M17 14a4.1 4.1 0 0 1 4.1 4.1v1.6"/></symbol>
+    <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M6.3 3.2v17.6M3.4 3.2v4.3a2.9 2.9 0 0 0 5.8 0V3.2"/><path d="M17.2 20.8V3.2c-2.1 1.5-3.3 3.9-3.3 6.5 0 2.1 1.1 3.4 3.3 3.6"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7.8" width="18" height="12.4" rx="2.2"/><path d="M8.2 7.8V6.2A2.2 2.2 0 0 1 10.4 4h3.2a2.2 2.2 0 0 1 2.2 2.2v1.6M3 12.8h18"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4.2 8.2h3l1.3-2h7l1.3 2h3a1.8 1.8 0 0 1 1.8 1.8v8a1.8 1.8 0 0 1-1.8 1.8H4.2a1.8 1.8 0 0 1-1.8-1.8v-8a1.8 1.8 0 0 1 1.8-1.8z"/><circle cx="12.3" cy="13.7" r="3.6"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5.5" width="13.5" height="13" rx="2.2"/><path d="m16.5 10 4.5-2.6v9.2L16.5 14"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5.5 3.5-5.5 3.5z" class="fill"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4.5v15M4.5 12h15"/></symbol>
+    <symbol id="i-sort" viewBox="0 0 24 24"><path d="M8 4.5v15m0 0-3.2-3.2M8 19.5l3.2-3.2M16 19.5v-15m0 0-3.2 3.2M16 4.5l3.2 3.2"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3.5 5h17l-6.4 7.3v5.8l-4.2 2v-7.8z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.2" height="6.2" rx="1.2"/><rect x="13.8" y="4" width="6.2" height="6.2" rx="1.2"/><rect x="4" y="13.8" width="6.2" height="6.2" rx="1.2"/><rect x="13.8" y="13.8" width="6.2" height="6.2" rx="1.2"/></symbol>
+    <symbol id="i-grid5" viewBox="0 0 24 24"><rect x="3" y="4" width="3" height="6.3" rx=".7"/><rect x="7.2" y="4" width="3" height="6.3" rx=".7"/><rect x="11.4" y="4" width="3" height="6.3" rx=".7"/><rect x="15.6" y="4" width="3" height="6.3" rx=".7"/><rect x="19.8" y="4" width="1.4" height="6.3" rx=".5"/><rect x="3" y="13.7" width="3" height="6.3" rx=".7"/><rect x="7.2" y="13.7" width="3" height="6.3" rx=".7"/><rect x="11.4" y="13.7" width="3" height="6.3" rx=".7"/><rect x="15.6" y="13.7" width="3" height="6.3" rx=".7"/><rect x="19.8" y="13.7" width="1.4" height="6.3" rx=".5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.7" cy="6.5" r="1.1" class="dot"/><circle cx="4.7" cy="12" r="1.1" class="dot"/><circle cx="4.7" cy="17.5" r="1.1" class="dot"/></symbol>
+    <symbol id="i-folder-minus" viewBox="0 0 24 24"><path d="M3 7.4a2.2 2.2 0 0 1 2.2-2.2h4.1l2 2.1h7.5A2.2 2.2 0 0 1 21 9.5v7.9a2.2 2.2 0 0 1-2.2 2.2H5.2A2.2 2.2 0 0 1 3 17.4z"/><path d="M9.4 14.2h5.2"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5" width="3.6" height="14" rx="1"/><rect x="13.9" y="5" width="3.6" height="14" rx="1"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M4 9.2h3.3L12 5.2v13.6l-4.7-4H4z"/><path d="M15.5 9.3a4.2 4.2 0 0 1 0 5.4M18.2 6.8a7.6 7.6 0 0 1 0 10.4"/></symbol>
+    <symbol id="i-volume-off" viewBox="0 0 24 24"><path d="M4 9.2h3.3L12 5.2v13.6l-4.7-4H4z"/><path d="m15.5 9.5 4.8 5M20.3 9.5l-4.8 5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9.2 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m14.8 5.5-6.5 6.5 6.5 6.5"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.2 5.5 6.5 6.5-6.5 6.5"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12.6 5.3 18.7 11.4M4 20l1-5L16.2 3.8a1.8 1.8 0 0 1 2.5 0l1.5 1.5a1.8 1.8 0 0 1 0 2.5L9 19z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.2 6.8h15.6M9.2 6.8V4.5h5.6v2.3M6.2 6.8l.9 13.1a1.6 1.6 0 0 0 1.6 1.5h6.6a1.6 1.6 0 0 0 1.6-1.5l.9-13.1M10 10.7v6.6M14 10.7v6.6"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.4"/><circle cx="17.7" cy="5.8" r="2.4"/><circle cx="17.7" cy="18.2" r="2.4"/><path d="m8.2 10.9 7.3-3.9M8.2 13.1l7.3 3.9"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 5.5v5h-5M4 18.5v-5h5"/><path d="M6.1 8.4A7.2 7.2 0 0 1 19.3 10M17.9 15.6A7.2 7.2 0 0 1 4.7 14"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10.5" rx="2.2"/><path d="M8 10V7.7a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15.1" r="1.2" class="dot"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.8 12.6 4.6 4.6L19.3 7"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 10.6v5.7M12 7.7v.2"/></symbol>
+    <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="8.5" cy="7" r="1" class="dot"/><circle cx="15.5" cy="7" r="1" class="dot"/><circle cx="8.5" cy="12" r="1" class="dot"/><circle cx="15.5" cy="12" r="1" class="dot"/><circle cx="8.5" cy="17" r="1" class="dot"/><circle cx="15.5" cy="17" r="1" class="dot"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3.5c.6 4.8 3.2 7.4 8 8-4.8.6-7.4 3.2-8 8-.6-4.8-3.2-7.4-8-8 4.8-.6 7.4-3.2 8-8z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.65 5.36 5.92.86-4.28 4.17 1.01 5.89L12 17.01l-5.3 2.77 1.01-5.89-4.28-4.17 5.92-.86z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.8" y="5.2" width="16.4" height="15" rx="2.2"/><path d="M7.8 3.2v4M16.2 3.2v4M3.8 9.5h16.4"/><path d="M8 13h2M14 13h2M8 16.7h2M14 16.7h2"/></symbol>
+    <symbol id="i-select-all" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2.2"/><path d="m7.3 12 3 3 6.4-6.4"/></symbol>
+    <symbol id="i-move" viewBox="0 0 24 24"><path d="M12 3.5v17M3.5 12h17M12 3.5 8.8 6.7M12 3.5l3.2 3.2M20.5 12l-3.2-3.2M20.5 12l-3.2 3.2M12 20.5l-3.2-3.2M12 20.5l3.2-3.2M3.5 12l3.2-3.2M3.5 12l3.2 3.2"/></symbol>
+    <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6.5 3v14.5H21M3 6.5h14.5V21"/></symbol>
+    <symbol id="i-rotate-left" viewBox="0 0 24 24"><path d="M4 9.5V4m0 0h5.5M4 4l3.9 3.9A7.4 7.4 0 1 1 5.3 15"/></symbol>
+    <symbol id="i-rotate-right" viewBox="0 0 24 24"><path d="M20 9.5V4m0 0h-5.5M20 4l-3.9 3.9A7.4 7.4 0 1 0 18.7 15"/></symbol>
+    <symbol id="i-brush" viewBox="0 0 24 24"><path d="m14.5 4.2 5.3 5.3-8.7 8.7-5.3-5.3z"/><path d="m5.8 12.9-2.3 5.6a1.8 1.8 0 0 0 2.4 2.4l5.6-2.3"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path d="M4.5 6V4.5h15V6M12 4.8v14.4M9 19.5h6"/></symbol>
+    <symbol id="i-mosaic" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M4 9h9.5a5.5 5.5 0 0 1 0 11H8M4 9l4-4M4 9l4 4"/></symbol>
+    <symbol id="i-live" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M6.4 6.4a7.9 7.9 0 0 0 0 11.2M17.6 6.4a7.9 7.9 0 0 1 0 11.2M3.4 3.4a12.2 12.2 0 0 0 0 17.2M20.6 3.4a12.2 12.2 0 0 1 0 17.2"/></symbol>
+    <symbol id="i-rename" viewBox="0 0 24 24"><path d="M4 20h4l10.2-10.2a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0L4 16z"/><path d="M13.5 6.5 17.5 10.5"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M4.5 3.5h12l3 3v14h-15z"/><path d="M8 3.5v6h8v-6M8 20.5v-7h8v7"/></symbol>
+    <symbol id="i-album" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2.4"/><path d="m3.8 17 5.1-5 3.8 3.6 2.5-2.4 5.2 5.1"/><circle cx="8.6" cy="9.1" r="1.4"/><path d="M7 20.5h10"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7.2 19.2h10.3a4 4 0 0 0 .5-8 6.1 6.1 0 0 0-11.7-1.6 4.8 4.8 0 0 0 .9 9.6z"/><path d="M12 13v5m0 0-2.2-2.2M12 18l2.2-2.2"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20.2v-1.1a6.2 6.2 0 0 1 6.2-6.2h2a6.2 6.2 0 0 1 6.2 6.2v1.1"/></symbol>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <h1>卡包相册</h1>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="sidebarToggle" type="button" aria-label="折叠或展开左侧栏" title="折叠/展开左侧栏" aria-expanded="true">
+        <svg class="icon"><use href="#i-panel"></use></svg>
+      </button>
+      <button class="icon-btn" id="tipBtn" type="button" aria-label="使用小提示" title="使用小提示">
+        <svg class="icon"><use href="#i-sparkle"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="卡包导航">
+      <div class="side-scroll">
+        <div class="side-heading-row">
+          <div>
+            <div class="side-heading">卡包</div>
+            <div class="side-kicker">本地相册</div>
+          </div>
+        </div>
+        <label class="side-search" id="folderSearchWrap">
+          <svg class="icon"><use href="#i-search"></use></svg>
+          <input id="folderSearch" type="search" placeholder="搜索卡包" autocomplete="off" aria-label="搜索卡包">
+        </label>
+
+        <nav class="nav" id="sideNav"></nav>
+
+        <div class="side-footnote">长按进入多选 · 拖动归档</div>
+      </div>
+    </aside>
+
+    <main class="content" id="content">
+      <div class="content-head">
+        <div class="title-wrap">
+          <div class="title-line">
+            <h2 id="viewTitle">未分类</h2>
+            <button class="title-edit" id="editFolderBtn" type="button" title="编辑卡包" aria-label="编辑卡包" hidden>
+              <svg class="icon"><use href="#i-edit"></use></svg>
+            </button>
+            <button class="title-edit" id="shareFolderBtn" type="button" title="分享整个卡包" aria-label="分享整个卡包" hidden>
+              <svg class="icon"><use href="#i-share"></use></svg>
+            </button>
+          </div>
+          <div class="view-meta" id="viewMeta">正在读取相册…</div>
+        </div>
+        <div class="tools">
+          <button class="icon-btn tool-icon" id="viewBtn" type="button" aria-label="切换视图" title="切换视图">
+            <svg class="icon" id="viewIcon"><use href="#i-grid"></use></svg>
+          </button>
+          <button class="tool-btn sort-btn" id="sortBtn" type="button" aria-haspopup="menu" aria-expanded="false" title="排序">
+            <svg class="icon"><use href="#i-sort"></use></svg>
+            <span id="sortLabel">最新</span>
+            <svg class="icon tiny chev"><use href="#i-chevron-down"></use></svg>
+          </button>
+          <button class="tool-btn filter-btn" id="filterBtn" type="button" aria-haspopup="menu" aria-expanded="false" title="筛选媒体类型">
+            <svg class="icon"><use href="#i-filter"></use></svg>
+            <span id="filterLabel">全部</span>
+            <svg class="icon tiny chev"><use href="#i-chevron-down"></use></svg>
+          </button>
+          <button class="icon-btn tool-icon" id="searchBtn" type="button" aria-label="搜索照片和视频" title="搜索">
+            <svg class="icon"><use href="#i-search"></use></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-row" id="searchRow" hidden>
+        <svg class="icon"><use href="#i-search"></use></svg>
+        <input id="searchInput" type="search" placeholder="搜索照片或视频名称" autocomplete="off" aria-label="搜索照片或视频名称">
+        <button class="search-clear" id="searchClear" type="button" aria-label="清空搜索" hidden>
+          <svg class="icon"><use href="#i-close"></use></svg>
+        </button>
+      </div>
+
+      <div class="selection-bar" id="selectionBar" hidden>
+        <div class="selection-copy">
+          <strong id="selectionCount">已选 1 项</strong>
+          <span id="selectionHint">点按照片继续多选，拖动所选内容归档</span>
+        </div>
+        <div class="selection-actions">
+          <button type="button" id="selectAllBtn"><svg class="icon"><use href="#i-select-all"></use></svg><span>全选</span></button>
+          <button type="button" id="moveSelectedBtn"><svg class="icon"><use href="#i-move"></use></svg><span>移动</span></button>
+          <button type="button" id="removeSelectedBtn"><svg class="icon"><use href="#i-folder-minus"></use></svg><span>移出</span></button>
+          <button type="button" id="deleteSelectedBtn" class="danger"><svg class="icon"><use href="#i-trash"></use></svg><span>删除</span></button>
+          <button type="button" id="restoreTrashBtn" hidden><svg class="icon"><use href="#i-folder-open"></use></svg><span>移出垃圾桶</span></button>
+          <button type="button" id="purgeTrashBtn" class="danger" hidden><svg class="icon"><use href="#i-trash"></use></svg><span>彻底删除</span></button>
+          <button type="button" id="exitSelectionBtn" class="finish"><svg class="icon"><use href="#i-close"></use></svg><span>取消</span></button>
+        </div>
+      </div>
+
+      <div class="board-search" id="boardSearchWrap" hidden>
+        <svg class="icon"><use href="#i-search"></use></svg>
+        <input id="boardSearch" type="search" placeholder="搜索卡包或手机图集" autocomplete="off" aria-label="搜索卡包">
+      </div>
+      <div class="banner-stack" id="bannerStack"></div>
+      <div class="photo-grid" id="grid" role="list"></div>
+      <div class="folders-board" id="foldersBoard" hidden></div>
+      <div class="empty-state" id="emptyState" hidden></div>
+      <div class="loading-state" id="loadingState">
+        <span class="spinner"></span>
+        <span>正在读取相册…</span>
+      </div>
+      <div class="sentinel" id="sentinel" aria-hidden="true"></div>
+    </main>
+  </div>
+</div>
+
+<!-- 筛选菜单 -->
+<div class="popover filter-menu" id="filterMenu" role="menu" hidden>
+  <div class="pop-title">筛选类型</div>
+  <button type="button" role="menuitemradio" data-filter="all"><span>全部媒体</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-filter="image"><span>仅图片</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-filter="video"><span>仅视频</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-filter="animated"><span>仅动图</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-filter="live"><span>仅实况</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <div class="pop-divider"></div>
+  <button type="button" role="menuitemradio" data-filter="time" class="time-filter-item"><span><svg class="icon"><use href="#i-calendar"></use></svg>按时间筛选</span><span class="filter-sub" id="timeFilterLabel"></span><svg class="icon check"><use href="#i-check"></use></svg></button>
+</div>
+
+<!-- 排序菜单 -->
+<div class="popover sort-menu" id="sortMenu" role="menu" hidden>
+  <div class="pop-title">排序方式</div>
+  <button type="button" role="menuitemradio" data-sort="newest"><span>最新在前</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-sort="oldest"><span>最早在前</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-sort="name"><span>按名称</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+  <button type="button" role="menuitemradio" data-sort="custom" hidden><span>自定义顺序</span><svg class="icon check"><use href="#i-check"></use></svg></button>
+</div>
+
+<!-- 应用菜单 -->
+<div class="popover app-menu" id="appMenu" role="menu" hidden>
+  <button type="button" role="menuitem" data-action="tip"><svg class="icon"><use href="#i-sparkle"></use></svg><span>使用小提示</span></button>
+</div>
+
+<!-- 查看器 -->
+<div class="viewer" id="viewer" hidden aria-hidden="true">
+  <div class="viewer-topbar">
+    <button class="icon-btn viewer-close" id="viewerClose" type="button" aria-label="关闭">
+      <svg class="icon"><use href="#i-close"></use></svg>
+    </button>
+    <div class="viewer-caption">
+      <div class="viewer-name" id="viewerName"></div>
+      <div class="viewer-date" id="viewerDate"></div>
+    </div>
+    <button class="icon-btn" id="viewerShare" type="button" aria-label="分享" title="分享">
+      <svg class="icon"><use href="#i-share"></use></svg>
+    </button>
+  </div>
+  <div class="viewer-stage" id="viewerStage">
+    <button class="viewer-arrow prev" id="viewerPrev" type="button" aria-label="上一个">
+      <svg class="icon"><use href="#i-chevron-left"></use></svg>
+    </button>
+    <div class="viewer-canvas" id="viewerCanvas">
+      <div class="viewer-loading" id="viewerLoading"><span class="spinner"></span></div>
+      <img id="viewerImage" alt="">
+      <video id="viewerVideo" playsinline preload="auto" hidden></video>
+      <button class="live-pill" id="viewerLiveBtn" type="button" hidden>
+        <svg class="icon"><use href="#i-live"></use></svg><span>播放实况</span>
+      </button>
+    </div>
+    <button class="viewer-arrow next" id="viewerNext" type="button" aria-label="下一个">
+      <svg class="icon"><use href="#i-chevron-right"></use></svg>
+    </button>
+  </div>
+  <div class="video-controls" id="videoControls" hidden>
+    <button class="video-play" id="videoPlayBtn" type="button" aria-label="播放">
+      <svg class="icon play-icon"><use href="#i-play"></use></svg>
+      <svg class="icon pause-icon" hidden><use href="#i-pause"></use></svg>
+    </button>
+    <input class="video-progress" id="videoProgress" type="range" min="0" max="100" step="0.1" value="0" aria-label="进度">
+    <span class="video-time" id="videoTime">0:00</span>
+    <button class="video-mute" id="videoMuteBtn" type="button" aria-label="开启或关闭声音">
+      <svg class="icon volume-on"><use href="#i-volume"></use></svg>
+      <svg class="icon volume-off" hidden><use href="#i-volume-off"></use></svg>
+    </button>
+  </div>
+  <div class="viewer-footer">
+    <div class="viewer-actions">
+      <button type="button" class="folder-chip" id="viewerFolder" aria-haspopup="dialog">
+        <svg class="icon"><use href="#i-folder"></use></svg>
+        <span id="viewerFolderName">未分类</span>
+      </button>
+      <button type="button" data-act="remove-pack" id="viewerRemovePackBtn"><span class="act-icon"><svg class="icon"><use href="#i-folder-minus"></use></svg></span><span>移出此卡包</span></button>
+      <button type="button" data-act="rename"><span class="act-icon"><svg class="icon"><use href="#i-rename"></use></svg></span><span>重命名</span></button>
+      <button type="button" data-act="delete" class="danger"><span class="act-icon"><svg class="icon"><use href="#i-trash"></use></svg></span><span>删除</span></button>
+    </div>
+    <div class="viewer-count" id="viewerCount"></div>
+  </div>
+</div>
+
+<!-- 移动到卡包 -->
+<div class="modal-backdrop" id="moveModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="moveTitle">
+    <div class="sheet-grab"></div>
+    <div class="sheet-head">
+      <h3 id="moveTitle">移动到卡包</h3>
+      <button class="icon-btn" type="button" data-close="moveModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="move-list" id="moveList"></div>
+    <button class="sheet-new" id="moveMulti" type="button"><svg class="icon"><use href="#i-folder-open"></use></svg><span>移动到多个卡包</span></button>
+    <button class="sheet-new secondary" id="moveNewFolder" type="button"><svg class="icon"><use href="#i-folder-plus"></use></svg><span>新建卡包</span></button>
+  </div>
+</div>
+
+<!-- 移动到多个卡包 -->
+<div class="modal-backdrop" id="multiMoveModal" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="multiMoveTitle">
+    <div class="dialog-head">
+      <div>
+        <div class="eyebrow">卡包归类</div>
+        <h3 id="multiMoveTitle">移动到多个卡包</h3>
+      </div>
+      <button class="icon-btn" type="button" data-close="multiMoveModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <p class="dialog-copy">一张照片可以同时放入多个卡包；取消全部勾选则回到未分类。</p>
+    <div class="multi-move-list" id="multiMoveList"></div>
+    <div class="dialog-actions multi-move-actions">
+      <button class="btn ghost danger-ghost" id="multiMoveClear" type="button">全部移出</button>
+      <div class="dialog-actions-right">
+        <button class="btn ghost" type="button" data-close="multiMoveModal">取消</button>
+        <button class="btn primary" id="multiMoveSave" type="button">保存归类</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 新建 / 编辑卡包 -->
+<div class="modal-backdrop" id="folderModal" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="folderTitle">
+    <div class="dialog-head">
+      <div>
+        <div class="eyebrow" id="folderEyebrow">整理媒体</div>
+        <h3 id="folderTitle">新建卡包</h3>
+      </div>
+      <button class="icon-btn" type="button" data-close="folderModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <label class="field">
+      <span>卡包名称</span>
+      <input id="folderNameInput" type="text" maxlength="12" placeholder="例如：宠物、旅行、毕业照" autocomplete="off">
+    </label>
+    <div class="field">
+      <span>图标</span>
+      <div class="choice-row" id="iconChoices"></div>
+    </div>
+    <div class="dialog-actions folder-dialog-actions">
+      <button class="btn danger-ghost" id="deleteFolderBtn" type="button" hidden>删除卡包</button>
+      <div class="dialog-actions-right">
+        <button class="btn ghost" type="button" data-close="folderModal">取消</button>
+        <button class="btn primary" id="saveFolderBtn" type="button">创建卡包</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 删除卡包确认 -->
+<div class="modal-backdrop" id="folderDeleteModal" hidden>
+  <div class="dialog small-dialog" role="dialog" aria-modal="true" aria-labelledby="folderDeleteTitle">
+    <div class="dialog-head">
+      <div>
+        <div class="eyebrow">删除卡包</div>
+        <h3 id="folderDeleteTitle">确定删除？</h3>
+      </div>
+    </div>
+    <p class="dialog-copy" id="folderDeleteCopy">卡包中的媒体会回到“未分类”，原始照片和视频不会被删除。</p>
+    <div class="dialog-actions">
+      <button class="btn ghost" type="button" data-close="folderDeleteModal">取消</button>
+      <button class="btn danger" id="confirmDeleteFolderBtn" type="button">删除卡包</button>
+    </div>
+  </div>
+</div>
+
+<!-- 重命名 -->
+<div class="modal-backdrop" id="renameModal" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="renameTitle">
+    <div class="dialog-head">
+      <div>
+        <div class="eyebrow">文件名称</div>
+        <h3 id="renameTitle">重命名</h3>
+      </div>
+      <button class="icon-btn" type="button" data-close="renameModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <label class="field">
+      <span>新名称</span>
+      <input id="renameInput" type="text" maxlength="80" autocomplete="off">
+    </label>
+    <p class="dialog-tip">会保留原文件扩展名，并请求系统修改权限。</p>
+    <div class="dialog-actions">
+      <button class="btn ghost" type="button" data-close="renameModal">取消</button>
+      <button class="btn primary" id="saveRenameBtn" type="button">保存名称</button>
+    </div>
+  </div>
+</div>
+
+<!-- 按时间筛选 -->
+<div class="modal-backdrop" id="timeFilterModal" hidden>
+  <div class="dialog time-dialog" role="dialog" aria-modal="true" aria-labelledby="timeFilterTitle">
+    <div class="dialog-head">
+      <div>
+        <div class="eyebrow">按时间筛选</div>
+        <h3 id="timeFilterTitle">选择年份</h3>
+      </div>
+      <button class="icon-btn" type="button" data-close="timeFilterModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="time-filter-hint" id="timeFilterHint">只显示相册中存在的日期；不选月份显示整年，不选日期显示整月。</div>
+    <div class="time-filter-list" id="timeFilterList"></div>
+    <div class="dialog-actions time-dialog-actions">
+      <div class="time-dialog-left">
+        <button class="btn ghost time-clear" id="timeFilterClear" type="button" hidden>清除时间</button>
+        <button class="btn ghost" type="button" data-close="timeFilterModal">取消</button>
+      </div>
+      <div class="dialog-actions-right">
+        <button class="btn ghost" id="timeFilterBack" type="button" hidden>上一步</button>
+        <button class="btn primary" id="timeFilterNext" type="button">下一步</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 关于 -->
+<div class="modal-backdrop" id="aboutModal" hidden>
+  <div class="dialog about-dialog" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="about-mark"><svg class="icon"><use href="#i-folder"></use></svg></div>
+    <h3 id="aboutTitle">卡包相册</h3>
+    <p class="about-version">版本 0.6.0</p>
+    <p class="about-copy">一个方便快捷的本地相册浏览分类管理工具</p>
+    <p class="about-author">唯一作者：dy：梦里看呆了</p>
+    <div class="about-tips">
+      <div><svg class="icon"><use href="#i-select-all"></use></svg><span>长按进入多选，可批量拖入卡包</span></div>
+      <div><svg class="icon"><use href="#i-filter"></use></svg><span>图片/视频/动图/实况筛选、时间筛选与系统图集同步</span></div>
+    </div>
+    <button class="btn primary wide" type="button" data-close="aboutModal">开始整理</button>
+  </div>
+</div>
+
+<!-- 隐私政策 -->
+<div class="modal-backdrop" id="privacyModal" hidden>
+  <div class="dialog doc-dialog" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <div class="dialog-head">
+      <div><div class="eyebrow">隐私与权限</div><h3 id="privacyTitle">隐私政策</h3></div>
+      <button class="icon-btn" type="button" data-close="privacyModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="doc-scroll">
+      <p class="doc-meta">更新日期：2026-11-22 · 适用版本 0.6.0</p>
+      <h4>1. 只在本地处理</h4>
+      <p>卡包相册是本地相册整理工具，未申请网络权限，不会把照片、视频、卡包分类或使用记录上传到服务器，也不含广告或统计 SDK。</p>
+      <h4>2. 读取与保存</h4>
+      <p>仅在您授权后，通过系统 MediaStore 读取照片和视频用于展示。卡包分类保存在本机应用私有数据中；卸载应用会清除分类记录，但不会删除原始文件。</p>
+            <h4>3. 分享与第三方</h4>
+      <p>只有您主动点击分享时，才会通过系统分享面板把所选文件交给您选择的应用；本应用无法控制第三方应用之后的数据处理。</p>
+      <h4>4. 权限最小化</h4>
+      <p>不申请相机、麦克风、定位、通讯录、短信或网络权限。详细用途见“我的 → 权限说明”。</p>
+      <h4>5. 您的权利</h4>
+      <p>可以随时在系统设置中撤销照片/视频权限；可以在应用内删除卡包分类或删除媒体；卸载应用会清除本地分类数据。</p>
+      <h4>6. 使用建议</h4>
+      <p>建议保留原始照片；卸载或换机前先记录重要卡包分类；Android 14 及以上如只需少量照片，可选择“仅允许部分照片和视频”。</p>
+      <h4>7. 联系作者</h4>
+      <p>唯一作者：dy：梦里看呆了。隐私相关问题请通过应用发布页面联系。</p>
+    </div>
+    <button class="btn primary wide" type="button" data-close="privacyModal">我知道了</button>
+  </div>
+</div>
+
+<!-- 权限说明 -->
+<div class="modal-backdrop" id="permissionModal" hidden>
+  <div class="dialog doc-dialog" role="dialog" aria-modal="true" aria-labelledby="permissionTitle">
+    <div class="dialog-head">
+      <div><div class="eyebrow">隐私与权限</div><h3 id="permissionTitle">权限说明</h3></div>
+      <button class="icon-btn" type="button" data-close="permissionModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="doc-scroll">
+      <h4>照片和视频</h4>
+      <p><strong>READ_MEDIA_IMAGES / READ_MEDIA_VIDEO</strong>（Android 13+）或 <strong>READ_EXTERNAL_STORAGE</strong>（Android 12 及以下）用于读取并展示系统相册中的照片和视频。没有该权限时应用无法显示媒体。</p>
+      <p><strong>READ_MEDIA_VISUAL_USER_SELECTED</strong>（Android 14+）允许您只选择部分照片和视频给应用；选择部分后，应用只会看到您选中的内容。</p>
+      <p><strong>WRITE_EXTERNAL_STORAGE</strong>（Android 9 及以下）用于对系统相册执行删除/重命名等写入操作。</p>
+      <h4>其他权限</h4>
+      <p><strong>VIBRATE</strong>：长按和拖动时的轻微触感反馈，可关闭系统触感后不再生效。</p>
+      <p>本应用不申请 INTERNET、CAMERA、RECORD_AUDIO、ACCESS_FINE_LOCATION、READ_CONTACTS 等权限。</p>
+      <h4>数据如何保管</h4>
+      <p>照片和视频通过应用内 ContentProvider 提供，不对外导出；分享时只对您选择的目标应用临时授权。卡包分类保存在应用私有数据中，其他应用无法直接读取。</p>
+      <h4>权限建议</h4>
+      <p>建议授予照片/视频访问权限以正常浏览；Android 14+ 可按需选择部分照片。若系统不再弹出授权框，请到系统设置 → 应用 → 卡包相册 → 权限中手动开启。</p>
+      <p>撤销权限不会删除原图；但应用将无法继续显示未授权范围内的媒体。</p>
+    </div>
+    <button class="btn primary wide" type="button" data-close="permissionModal">我知道了</button>
+  </div>
+</div>
+
+
+<!-- 使用小提示 -->
+<div class="modal-backdrop" id="tipModal" hidden>
+  <div class="dialog doc-dialog tip-dialog" role="dialog" aria-modal="true" aria-labelledby="tipTitle">
+    <div class="dialog-head">
+      <div><div class="eyebrow">使用指南</div><h3 id="tipTitle">使用小提示</h3></div>
+      <button class="icon-btn" type="button" data-close="tipModal" aria-label="关闭"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="doc-scroll">
+      <p class="doc-meta">这些是普通相册通常没有的整理能力，按需使用即可。</p>
+      <h4>1. 长按进入多选</h4>
+      <p>在照片/视频上长按约 0.2 秒进入多选；轻点其他内容继续加选；点“全选”选择当前列表全部内容；点“取消”退出多选。</p>
+      <h4>2. 拖动归档（无需先点移动）</h4>
+      <p>进入多选后，按住任意已选内容拖到左侧卡包，松手即可批量归档。拖到“未分类”会清除卡包归属。</p>
+      <h4>3. 一张照片可进多个卡包</h4>
+      <p>点“移动 → 移动到多个卡包”，可同时勾选多个卡包；已归入任意卡包的内容不会出现在“未分类”。</p>
+      <h4>4. 移出与删除不同</h4>
+      <p>“移出”只移除卡包归属，文件仍在手机里；“删除”会把内容移入垃圾桶，之后还能恢复。</p>
+      <h4>5. 垃圾桶与彻底删除</h4>
+      <p>删除的照片/视频先进入左侧“垃圾桶”。在垃圾桶中多选后点“移出垃圾桶”，会像“移动”一样选择卡包恢复；点“彻底删除”才会真正删除原文件（系统会确认）。</p>
+      <h4>6. 卡包内自定义排序</h4>
+      <p>进入某个卡包，长按照片拖到另一张照片左侧或右侧，松手即可调整卡包内顺序，不会改变手机原相册顺序。</p>
+      <h4>7. 卡包集合与分享整包</h4>
+      <p>“卡包集合”可总览、新建、编辑和删除卡包；进入卡包后点标题右侧分享按钮，可把该卡包全部照片/视频通过系统分享面板发送。</p>
+      <h4>8. 视图、筛选与搜索</h4>
+      <p>右上角视图按钮显示当前模式，点击可在三张一行、五张一行、一张一行之间切换；可筛选图片/视频/动图/实况，也可按年/月/日筛选，或搜索名称。</p>
+      <h4>9. 视频与实况</h4>
+      <p>视频/实况的播放、进度、时间和音量控制在图片下方；实况打开会自动静音预览；视频和实况都支持左右滑动切换。</p>
+      <h4>10. 快速滑轨</h4>
+      <p>内容超过一屏时，屏幕最右侧会出现带上下三角的滑钮，拖动可快速滚动。</p>
+      <h4>11. 本地与隐私</h4>
+      <p>卡包分类只保存在本机，应用不联网、不上传原图；卸载会清除分类但不会删除照片。详见“我的 → 隐私政策/权限说明”。</p>
+    </div>
+    <button class="btn primary wide" type="button" data-close="tipModal">开始整理</button>
+  </div>
+</div>
+
+<div class="scroll-rail" id="scrollRail" hidden aria-hidden="true"><div class="scroll-thumb" id="scrollThumb"></div></div>
+
+<nav class="bottom-nav" id="bottomNav" aria-label="主导航">
+  <button type="button" class="bottom-tab active" data-tab="album">
+    <svg class="icon"><use href="#i-album"></use></svg><span>相册</span>
+  </button>
+  <button type="button" class="bottom-tab" data-tab="cloud">
+    <svg class="icon"><use href="#i-cloud"></use></svg><span>云空间</span>
+  </button>
+  <button type="button" class="bottom-tab" data-tab="me">
+    <svg class="icon"><use href="#i-user"></use></svg><span>我的</span>
+  </button>
+</nav>
+
+<div class="placeholder-page" id="placeholderPage" hidden>
+  <div class="placeholder-inner">
+    <div class="placeholder-mark"><svg class="icon"><use href="#i-sparkle"></use></svg></div>
+    <h2 id="placeholderTitle">云空间</h2>
+    <p>正在施工中，尽请期待</p>
+  </div>
+</div>
+
+<div class="me-page" id="mePage" hidden>
+  <div class="me-hero">
+    <div class="me-avatar"><svg class="icon"><use href="#i-user"></use></svg></div>
+    <div class="me-name">卡包相册</div>
+    <div class="me-sub">本地相册 · 0.6.0</div>
+    <div class="me-author">唯一作者：dy：梦里看呆了</div>
+  </div>
+  <div class="me-list">
+    <button type="button" class="me-row" data-me-action="refresh">
+      <span class="me-icon"><svg class="icon"><use href="#i-refresh"></use></svg></span>
+      <span class="me-label">刷新相册</span>
+      <svg class="icon tiny"><use href="#i-chevron-right"></use></svg>
+    </button>
+    <button type="button" class="me-row" data-me-action="permission">
+      <span class="me-icon"><svg class="icon"><use href="#i-lock"></use></svg></span>
+      <span class="me-label">照片和视频权限</span>
+      <svg class="icon tiny"><use href="#i-chevron-right"></use></svg>
+    </button>
+    <button type="button" class="me-row" data-me-action="about">
+      <span class="me-icon"><svg class="icon"><use href="#i-info"></use></svg></span>
+      <span class="me-label">关于卡包相册</span>
+      <svg class="icon tiny"><use href="#i-chevron-right"></use></svg>
+    </button>
+  </div>
+  <div class="me-section-title">隐私与权限</div>
+  <div class="me-list">
+    <button type="button" class="me-row" data-me-action="privacy">
+      <span class="me-icon"><svg class="icon"><use href="#i-lock"></use></svg></span>
+      <span class="me-label">隐私政策</span>
+      <svg class="icon tiny"><use href="#i-chevron-right"></use></svg>
+    </button>
+    <button type="button" class="me-row" data-me-action="permission-doc">
+      <span class="me-icon"><svg class="icon"><use href="#i-info"></use></svg></span>
+      <span class="me-label">权限说明</span>
+      <svg class="icon tiny"><use href="#i-chevron-right"></use></svg>
+    </button>
+  </div>
+  <div class="me-note">本应用不联网、不上传照片；分类只保存在本机。卸载会清除分类，但不会删除原图。</div>
+</div>
+
+<div class="tip-toast" id="tipToast" hidden>
+  <div class="tip-icon"><svg class="icon"><use href="#i-select-all"></use></svg></div>
+  <div class="tip-copy">
+    <strong>使用小提示</strong>
+    <span>长按进入多选，轻点加选；拖到卡包归档；选中后可移出卡包或删除。</span>
+  </div>
+  <button class="tip-close" id="tipClose" type="button" aria-label="关闭提示"><svg class="icon"><use href="#i-close"></use></svg></button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
